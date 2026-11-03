@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Harbor Savings &amp; Loan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Harbor Savings &amp; Loan</h1>
+  <p>Save steadily. Borrow with clear terms.</p>
+</header>
+<main>
+
+<!-- Step 1: sign in / register -->
+<section class="card" id="authView">
+  <h2 id="authTitle">Sign in</h2>
+  <div class="msg" id="authMsg" role="status" aria-live="polite"></div>
+  <label for="email">Email</label>
+  <input id="email" type="email" autocomplete="username" maxlength="100">
+  <label for="pw">Password</label>
+  <input id="pw" type="password" autocomplete="current-password" maxlength="128">
+  <ul class="rules" id="rules" hidden></ul>
+  <div class="row">
+    <button id="authBtn">Sign in</button>
+    <button id="switchBtn" class="ghost">Create an account</button>
+  </div>
+</section>
+
+<!-- Step 2: MFA -->
+<section class="card" id="mfaView" hidden>
+  <h2>Enter your verification code</h2>
+  <p>We sent a 6-digit code. It expires in 5 minutes.</p>
+  <div class="demo" id="demoCode"></div>
+  <label for="code">6-digit code</label>
+  <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6">
+  <div class="msg" id="mfaMsg" role="status" aria-live="polite"></div>
+  <button id="mfaBtn">Verify</button>
+</section>
+
+<!-- Step 3: dashboard -->
+<section id="dash" hidden style="display:contents">
+  <div class="card">
+    <div class="bar"><span id="who"></span><span id="timer"></span></div>
+    <p style="margin:12px 0 0;color:var(--mute)">Savings balance</p>
+    <div class="balance" id="balance">$0.00</div>
+    <label for="dep">Deposit amount (USD)</label>
+    <input id="dep" inputmode="decimal" placeholder="0.00">
+    <button id="depBtn">Deposit</button>
+    <div class="msg" id="depMsg" role="status" aria-live="polite"></div>
+  </div>
+
+  <div class="card">
+    <h2>Apply for a loan</h2>
+    <p style="margin:0;color:var(--mute)">Fixed 8.5% APR. $500 to $50,000, 6 to 60 months.</p>
+    <div class="row">
+      <div><label for="amt">Amount (USD)</label><input id="amt" inputmode="numeric"></div>
+      <div><label for="term">Term (months)</label><input id="term" inputmode="numeric"></div>
+    </div>
+    <p id="est" style="margin:10px 0 0;font-weight:500"></p>
+    <button id="loanBtn">Submit application</button>
+    <div class="msg" id="loanMsg" role="status" aria-live="polite"></div>
+    <div id="loans"></div>
+  </div>
+
+  <div class="card"><button class="ghost" id="outBtn" style="margin-top:0">Sign out</button></div>
+</section>
+
+<!-- Security notes -->
+<section class="card">
+  <h2>How this page is protected</h2>
+  <details open><summary>In this demo (browser)</summary>
+    <p>Strong passwords (12+ characters, mixed types, no common words). MFA code after sign-in. A signed JWT (HS256, 15-minute expiry) kept in memory only, never in localStorage. Passwords hashed with PBKDF2 and a random salt. Loan data encrypted with AES-GCM. Lockout after 5 failed attempts. Idle sign-out after 5 minutes. All user text is shown with textContent, so injected HTML or script cannot run. Same error for wrong email or wrong password.</p></details>
+  <details><summary>What must run on a real server</summary>
+    <p><b>SQL injection:</b> use parameterized queries or an ORM, never string-built SQL. <b>MITM:</b> HTTPS only, TLS 1.2+, HSTS header. <b>DDoS:</b> CDN or WAF, rate limiting per IP and per account. <b>Phishing:</b> phishing-resistant MFA (authenticator app or passkeys), SPF/DKIM/DMARC on your email domain. <b>IAM:</b> least-privilege roles, separate database user with no admin rights, secrets in a vault. <b>Headers:</b> Content-Security-Policy, X-Content-Type-Options, secure HttpOnly SameSite cookies.</p></details>
+  <details><summary>Important limits of this demo</summary>
+    <p>The "server" below runs in your browser so the page works as a single file. Browser code can be read and changed by anyone, so real checks (password hashing, JWT signing, MFA codes, encryption keys) must live on a backend. The MFA code is shown on screen only for the demo. Data resets when you refresh.</p></details>
+</section>
+
+</main>
+<script src="script.js"></script>
+</body>
+</html>
