@@ -1,0 +1,19 @@
+{
+  "name": "harbor-savings-loan",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node --env-file=.env server.js",
+    "keygen": "node -e \"const c=require('crypto');console.log('JWT_SECRET='+c.randomBytes(48).toString('hex'));console.log('ENC_KEY='+c.randomBytes(32).toString('hex'))\""
+  },
+  "engines": {
+    "node": ">=20.6"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
