@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harbor Savings &amp; Loan</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="wrap bar">
+  <a class="brand" href="/">Harbor<span>Savings &amp; Loan</span></a>
+  <nav aria-label="Main">
+    <button class="link" data-go="products">Products</button>
+    <button class="link" data-go="calc">Loan calculator</button>
+    <button class="link" data-go="security">Security</button>
+    <button class="btn sm" id="navSign">Sign in</button>
+  </nav>
+</div></header>
+
+<main>
+<!-- Home -->
+<div id="homeView">
+  <section class="hero"><div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Savings &amp; Loans</p>
+      <h1>Save steadily. Borrow with clear terms.</h1>
+      <p class="lead">A savings account you can rely on and personal loans with one fixed rate, a fixed payment and no surprises.</p>
+      <div class="row"><button class="btn" id="heroOpen">Open an account</button><button class="btn ghost" data-go="calc">Estimate a loan</button></div>
+    </div>
+    <aside class="facts" aria-label="Loan terms">
+      <div><b>8.5%</b><span>Fixed APR</span></div>
+      <div><b>$500 – $50,000</b><span>Loan amounts</span></div>
+      <div><b>6 – 60 months</b><span>Repayment terms</span></div>
+    </aside>
+  </div></section>
+
+  <section class="wrap block" id="products">
+    <h2>Banking, kept simple</h2>
+    <div class="cols">
+      <article><h3>Savings account</h3><p>Deposit and withdraw at any time. Your balance and every transaction are always visible.</p></article>
+      <article><h3>Personal loans</h3><p>Apply online, see your exact monthly payment before you submit, and track your application status.</p></article>
+      <article><h3>Protected by design</h3><p>Two-step sign-in, encrypted personal data and automatic sign-out keep your accounts safe.</p></article>
+    </div>
+  </section>
+
+  <section class="band" id="calc"><div class="wrap calc">
+    <div><h2>Loan calculator</h2><p>Estimates use a fixed 8.5% APR. Your final payment is confirmed when you apply.</p></div>
+    <div class="card">
+      <label for="cAmt">Amount: <output id="cAmtOut"></output></label>
+      <input id="cAmt" type="range" min="500" max="50000" step="500" value="10000">
+      <label for="cTerm">Term: <output id="cTermOut"></output></label>
+      <input id="cTerm" type="range" min="6" max="60" step="6" value="36">
+      <dl class="sum"><div><dt>Monthly payment</dt><dd id="cPay"></dd></div><div><dt>Total interest</dt><dd id="cInt"></dd></div></dl>
+    </div>
+  </div></section>
+
+  <section class="wrap block">
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li><b>Create an account</b><span>Register with your email and a strong password.</span></li>
+      <li><b>Verify your identity</b><span>Confirm each sign-in with a one-time code.</span></li>
+      <li><b>Save or borrow</b><span>Fund your savings or submit a loan application.</span></li>
+    </ol>
+  </section>
+
+  <section class="wrap block" id="security">
+    <h2>How we protect your account</h2>
+    <details open><summary>Sign-in and session</summary><p>Passwords are hashed with a unique salt and never stored in readable form. Every sign-in needs a one-time code. Accounts lock for 15 minutes after 5 failed attempts. Sessions expire after 15 minutes, or after 5 minutes without activity.</p></details>
+    <details><summary>Your data</summary><p>Personal details and loan information are encrypted at rest with AES-256. All traffic uses HTTPS. Staff can only see what their role requires.</p></details>
+    <details><summary>Staying safe from phishing</summary><p>We will never ask for your password or one-time code by email, text or phone. Check the last sign-in time on your dashboard; if it is not you, change your password.</p></details>
+  </section>
+</div>
+
+<!-- Sign in / register -->
+<section class="wrap narrow" id="authView" hidden>
+  <form class="card" id="authForm" novalidate>
+    <h2 id="authTitle">Sign in</h2>
+    <div class="msg" id="authMsg" role="status" aria-live="polite"></div>
+    <div id="nameRow" hidden><label for="name">Full name</label><input id="name" autocomplete="name" maxlength="80"></div>
+    <label for="email">Email</label><input id="email" type="email" autocomplete="username" maxlength="100">
+    <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" maxlength="128">
+    <ul class="rules" id="rules" hidden></ul>
+    <div class="row"><button class="btn" id="authBtn">Sign in</button><button type="button" class="btn ghost" id="switchBtn">Create an account</button></div>
+  </form>
+</section>
+
+<!-- MFA -->
+<section class="wrap narrow" id="mfaView" hidden>
+  <form class="card" id="mfaForm" novalidate>
+    <h2>Enter your verification code</h2>
+    <p class="muted">We sent a 6-digit code. It expires in 5 minutes.</p>
+    <div class="demo" id="demoCode"></div>
+    <label for="code">6-digit code</label>
+    <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6">
+    <div class="msg" id="mfaMsg" role="status" aria-live="polite"></div>
+    <button class="btn">Verify</button>
+  </form>
+</section>
+
+<!-- Dashboard -->
+<div class="wrap dash" id="dashView" hidden>
+  <div class="head"><div><h2 id="who"></h2><p class="muted" id="lastSeen"></p></div><div class="muted" id="timer">Auto sign-out after 5 minutes idle</div></div>
+  <div class="grid">
+    <section class="card">
+      <p class="muted">Savings balance</p><div class="balance" id="balance">$0.00</div>
+      <label for="amount">Amount (USD)</label><input id="amount" inputmode="decimal" placeholder="0.00">
+      <div class="row"><button class="btn" id="depBtn">Deposit</button><button class="btn ghost" id="wdBtn">Withdraw</button></div>
+      <div class="msg" id="moveMsg" role="status" aria-live="polite"></div>
+      <h3>Recent activity</h3><ul class="list" id="txns"></ul>
+    </section>
+    <section class="card">
+      <h2>Apply for a loan</h2>
+      <p class="muted">Fixed 8.5% APR. $500 to $50,000, 6 to 60 months.</p>
+      <form id="loanForm" novalidate>
+        <div class="row split"><div><label for="amt">Amount (USD)</label><input id="amt" inputmode="numeric"></div>
+        <div><label for="term">Term (months)</label><input id="term" inputmode="numeric"></div></div>
+        <label for="purpose">Purpose</label><input id="purpose" maxlength="200">
+        <p class="est" id="est"></p>
+        <button class="btn">Submit application</button>
+      </form>
+      <div class="msg" id="loanMsg" role="status" aria-live="polite"></div>
+      <h3>Your applications</h3><ul class="list" id="loans"></ul>
+    </section>
+  </div>
+</div>
+</main>
+
+<footer><div class="wrap foot">
+  <div><b>Harbor Savings &amp; Loan</b><p>Save steadily. Borrow with clear terms.</p></div>
+  <p class="small">Demonstration build. Rates and terms are examples. Never share your password or verification code with anyone.</p>
+</div></footer>
+<script src="/app.js"></script>
+</body>
+</html>
